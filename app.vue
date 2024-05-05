@@ -75,13 +75,15 @@ async function swap() {
     return false;
   }
   const transaction = new Transaction();
-  
+  const instructions:TransactionInstruction[] = [];
+
   for(const mint of selectedMint.value) {
     // get swap quote from jupiter for current mint
     const quote = await jupiterQuoteApi.quoteGet({
       inputMint: mint.mint.toString(),
-      outputMint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      outputMint: "So11111111111111111111111111111111111111112", // USDC : EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
       amount: mint.amount,
+      onlyDirectRoutes: true
     })
 
     // get swap instructions from jupiter for quote and current mint
@@ -106,17 +108,17 @@ async function swap() {
       
     }
 
-    // Add Instruction to transaction
-    transaction.add(new TransactionInstruction({
+    instructions.push(new TransactionInstruction({
       programId: new PublicKey(swapInstructionsResponse.swapInstruction.programId),
       data: swapInstructionBuf,
       keys: accountMeta,
-    }));
+    }))
   }
 
   // sign and send transaction
-  if(transaction.instructions.length > 0) {
-
+  if(instructions.length > 0) {
+    // Add Instruction to transaction
+    transaction.add(...instructions);
     const tx = await sendTransaction(transaction, connection)
     alert(`https://solscan.io/tx/${tx}`)
   }
