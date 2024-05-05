@@ -4,7 +4,9 @@ import {
     type RpcResponseAndContext,
     type GetProgramAccountsResponse,
 } from "@solana/web3.js";
-  
+
+import { type QuoteResponse } from '@jup-ag/api'
+
 import { Connection, 
       PublicKey, 
 } from "@solana/web3.js";
@@ -27,7 +29,7 @@ export type DecodedFormattedAccount = {
     notional: number | undefined; // notional fiat value
 };
 
-const connection: Connection = new Connection("https://solana-mainnet.g.alchemy.com/v2/AGAolYOnNxFPgrQzKd6n9TI2DKNwDkB7");
+export const connection: Connection = new Connection("https://solana-mainnet.g.alchemy.com/v2/AGAolYOnNxFPgrQzKd6n9TI2DKNwDkB7");
 
 export const scan = async function (walletAddress:PublicKey) {
 
@@ -97,11 +99,7 @@ export const getTokenData = async function (tokenAddress: string, amount: number
     }
 }
 
-export const getJupiterAPITransaction = async function () {}
-export const getJupiterSDKTransaction = async function () {}
-
 export default {
-    getJupiterAPITransaction,
-    getJupiterSDKTransaction,
     getTokenData,
+    scan
 }
