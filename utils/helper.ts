@@ -28,7 +28,9 @@ import {
   type Asset,
   type TokenBalance,
   type TokenInfo,
-} from "~/utils/types"
+} from "~/utils/types";
+
+import axios from "axios";
 
 const forbiddenTokens = ["SOL", "USDC", "USDT"];
 
@@ -276,8 +278,31 @@ export async function getTokenAccounts(
     return tokenMap
   }
 
+  /**
+   * Retrieve 
+   */
+  async function getPairSOL_USD() {
+    const jupBaseUrl = 'https://price.jup.ag/v6/price?ids=SOL'
+    
+    try {
+        const response = await axios.get(jupBaseUrl);
+        const tokenData:JupPriceAPIResponse = response.data.data['SOL'];
+
+        if(!tokenData) {
+            return null
+        }
+
+        return tokenData?.price || null;
+
+    } catch (error) {
+        console.error("Error fetching token data:", error);
+        return null;
+    }
+  }
+  
 export { 
   findQuotes,
   buildSwapTransaction,
   loadJupTokens,
+  getPairSOL_USD
  }

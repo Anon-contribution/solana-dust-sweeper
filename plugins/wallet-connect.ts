@@ -1,4 +1,6 @@
 import "solana-wallets-vue/styles.css";
+// override default wallet connect css
+// import "~/assets/css/wallet-connect.css";
 import SolanaWallets from "solana-wallets-vue";
 import { initWallet } from "solana-wallets-vue";
 
@@ -14,7 +16,7 @@ const walletOptions = {
     new PhantomWalletAdapter(),
     new SolflareWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
   ],
-  // autoConnect: true,
+  autoConnect: true,
 };
 
 initWallet(walletOptions);

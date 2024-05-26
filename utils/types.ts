@@ -5,6 +5,15 @@ import {
     type QuoteResponse,
 } from '@jup-ag/api';
 
+export interface JupPriceAPIResponse {
+  id:string; // - Address of a token
+  mintSymbol:string; // - Symbol of id token
+  vsToken:string; // - Address of vs token
+  vsTokenSymbol:string; // - Symbol of vs token
+  price:number; // - Default to 1 unit of the token worth in USDC if vsToken is not specified
+  timeTaken:number; // - API internal compute response time
+}
+
 export class AssetState {
     asset: TokenBalance;
     quote?: QuoteResponse;

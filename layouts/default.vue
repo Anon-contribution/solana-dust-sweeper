@@ -1,16 +1,29 @@
 <template>
-  <div>
-    <ClientOnly>
-      <WalletMultiButton />
-    </ClientOnly>
-    <slot />
+  <div class="h-screen">
+    <header class="h-20 bg-gray-500 text-white p-4 flex justify-between items-center">
+        <div class="text-2xl">Sol Dust Sweeper</div>
+        <nav class="flex items-center">
+          <div class="pr-4">
+            <SolPriceBadge/>
+          </div>
+          <ClientOnly >
+            <WalletMultiButton />
+          </ClientOnly>
+        </nav>
+    </header>
+    <main class="flex">
+      <slot />
+    </main>
+    <footer class="h-20 bg-gray-500 text-white text-center py-4 sticky bottom-0">
+        &copy; 2024 Sol Dust sweeper 🧹. All rights reserved.
+    </footer>
   </div>
 </template>
 
 <script setup lang="ts">
+  import SolPriceBadge from "~/components/SolPriceBadge.vue";
   import { WalletMultiButton, useWallet } from "solana-wallets-vue";
   import useAssetList from "~/composables/assetList"
-
   import {
     loadJupTokens,
     findQuotes,
