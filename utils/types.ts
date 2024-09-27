@@ -63,3 +63,9 @@ export class AssetState {
       programId: PublicKey;
       ataId: PublicKey;
     }
+
+  export interface OutputMint {
+    name:string;
+    address:string;
+    decimals: number;
+  }

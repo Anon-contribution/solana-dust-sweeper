@@ -15,7 +15,7 @@
       <slot />
     </main>
     <footer class="h-20 bg-gray-500 text-white text-center py-4 sticky bottom-0">
-        &copy; 2024 Sol Dust sweeper 🧹. All rights reserved.
+        &copy; 2024 Sol Dust sweeper 🧹.
     </footer>
   </div>
 </template>
@@ -28,8 +28,12 @@
     loadJupTokens,
     findQuotes,
   } from "~/utils/helper";
+import useSwapSettings from "~/composables/swapSettings";
+import useLoader from "~/composables/loader";
 
-  const { assetList, setAssetList, setTokenMap } = useAssetList();
+  const { outputMint } = useSwapSettings();
+  const { setloadingState } = useLoader();
+  const { setAssetList, setTokenMap } = useAssetList();
   const tokenMapState = useState<{ [id: string]: TokenInfo }>('tokenMap')
 
   await callOnce(async () => {
@@ -45,9 +49,13 @@
   })
 
   watch(connectedWallet, async (walletAddress) => {
-    if(undefined !== walletAddress) {
+    if(undefined !== walletAddress) {      
       // connected, refresh token List in state
-      setAssetList(await findQuotes(walletAddress, tokenMapState.value, "So11111111111111111111111111111111111111112"))
+      setloadingState(true)
+      const tokenBalances = await getTokenAccounts(walletAddress, tokenMapState.value);
+        const quotes = await findQuotes(walletAddress, tokenBalances, outputMint.value.address)
+        setAssetList(quotes)
+      setloadingState(false)
     } else {
       // disconnected
       console.log('disconnected')

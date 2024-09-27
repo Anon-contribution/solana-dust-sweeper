@@ -2,6 +2,9 @@ const nodePolyfills = require('vite-plugin-node-stdlib-browser');
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  devServer: {
+    port: 4000
+  },
   devtools: { enabled: true },
   ssr: false,
   typescript: {

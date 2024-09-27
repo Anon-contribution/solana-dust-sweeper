@@ -32,8 +32,12 @@ import {
 
 import axios from "axios";
 
-const forbiddenTokens = ["SOL", "USDC", "USDT"];
+import useLoader from '~/composables/loader'
 
+const { setloadingState } = useLoader();  
+
+const forbiddenTokens = ["SOL", "USDC", "USDT"];
+console.log(process.env.RPC_URL)
 const solanaConnection: Connection = new Connection("https://solana-mainnet.g.alchemy.com/v2/AGAolYOnNxFPgrQzKd6n9TI2DKNwDkB7");
 
 const deserializeInstruction = (instruction: any) => {
@@ -72,18 +76,18 @@ async function getAddressLookupTableAccounts(
 
 async function findQuotes(
         walletAddress: string,
-        tokens:{ [id: string]: TokenInfo },
+        tokensBalance:TokenBalance[],
         outputMint: string,
     ):Promise<AssetState[]> {
-
-    const assets = await getTokenAccounts(walletAddress, tokens)
+    // const assets = await getTokenAccounts(walletAddress, tokens)
     const quoteApi = createJupiterApiClient();
     const assetList:AssetState[] = [];
     
     await Promise.all(
-        assets.map(async (asset) => {
-          console.log('found asset:' + asset.token.name);
-
+        tokensBalance.map(async (asset) => {
+          // if(Number(asset.balance) === 0) {
+          //   return;
+          // }
             const quoteRequest: QuoteGetRequest = {
                 inputMint: asset.token.address,
                 outputMint: outputMint,
@@ -119,6 +123,7 @@ async function findQuotes(
               }
         })
     );
+    setloadingState(false);
     return assetList;
 }
 
@@ -152,7 +157,7 @@ async function buildSwapTransaction(
   if (!asset.swap) {
     return null;
   }
-  console.log(asset.swap);
+
   asset.swap.computeBudgetInstructions.forEach((computeIx) => {  
     instructions.push(deserializeInstruction(computeIx));
   });
@@ -172,19 +177,17 @@ async function buildSwapTransaction(
   );
   lookup = addressLookupTableAccounts;
 
-  if (closeAccount && asset.asset.programId !== TOKEN_2022_PROGRAM_ID) {
-    console.log('Adding closeAccountInstruction');
-    const closeAccountIx = createCloseAccountInstruction(
-      asset.asset.ataId,
-      wallet,
-      wallet,
-      [],
-      asset.asset.programId
-    );
-    instructions.push(closeAccountIx);
-  }
+  //if (closeAccount && asset.asset.programId.toBase58() !== TOKEN_2022_PROGRAM_ID.toBase58()) {
+    // const closeAccountIx = createCloseAccountInstruction(
+    //   asset.asset.ataId,
+    //   wallet,
+    //   wallet,
+    //   [],
+    //   asset.asset.programId
+    // );
+    // instructions.push(closeAccountIx);
+  //}
 
-  console.log(instructions);
   if (instructions.length > 0) {
     const message = new TransactionMessage({
       payerKey: wallet,

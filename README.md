@@ -1,3 +1,16 @@
+### Description
+
+This web3 app allow swapping of multiple tokens into USDC or SOL.
+I developed it because i often have 4-5 coins around who worth each less than $1 and
+can't bother to do 5 swaps straight one after the other then manually close accounts for all. 
+
+# TODO
+
+- fix wallet transaction multi-popups instead of one
+    -> DONE ?
+
+- Fix UI quote USDC value
+
 # Roadmap
 
 - add close account Feature

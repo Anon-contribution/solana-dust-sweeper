@@ -861,10 +861,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@jup-ag/api@^6.0.23":
-  version "6.0.23"
-  resolved "https://registry.yarnpkg.com/@jup-ag/api/-/api-6.0.23.tgz#ccf546b1d2d7b2344c4e61ae4f56daa30e2c7eb0"
-  integrity sha512-GjLXWHKNOhe9MtO0FuTqSg9xl2uXOYfY7BXRGSPZUjDmqLrisgRuxfb661u16caOF0FHJkQ1ZUQPATKjwh3AOQ==
+"@jup-ag/api@^6.0.27":
+  version "6.0.27"
+  resolved "https://registry.yarnpkg.com/@jup-ag/api/-/api-6.0.27.tgz#6d6f2e0d438124837dd83d55f3fbd18a5fa10b2b"
+  integrity sha512-Y6UwtmYVCjrwlejP+ZEJtIxtRIm7Fp+fgEbIdg3N8+BbX/Qi4fVHOF8wg4q2/pq8i4kZufcDaS5s6c/no4IQzg==
 
 "@keystonehq/alias-sampling@^0.1.1":
   version "0.1.2"
